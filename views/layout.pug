@@ -1,0 +1,34 @@
+doctype html
+html
+  head
+    title= title
+    meta(name='viewport' content='width=device-width, initial-scale=1, maximum-scale=1')
+    link(rel='stylesheet', href='/stylesheets/material.min.css')
+    script(src='/javascripts/material.min.js')
+    link(rel='stylesheet', href='/stylesheets/style.css')
+    link(rel='stylesheet', href='https://fonts.googleapis.com/icon?family=Material+Icons')
+  body
+    .mdl-layout.mdl-js-layout
+      header.mdl-layout__header.mdl-layout__header--scroll
+        .mdl-layout__header-row
+          span.mdl-layout-title Deployments overview
+          .mdl-layout-spacer
+          nav.mdl-navigation
+            label.mdl-button.mdl-js-button.mdl-button--icon(id=cachedIcon onclick="refreshColumns()")
+              i.material-icons cached 
+          .mdl-textfield.mdl-js-textfield.mdl-textfield--expandable.mdl-textfield--floating-label.mdl-textfield--align-right
+            label.mdl-button.mdl-js-button.mdl-button--icon(for='fixed-header-drawer-exp')
+              i.material-icons search  
+            .mdl-textfield__expandable-holder
+              input#fixed-header-drawer-exp.mdl-textfield__input(type='text' name='sample')
+          button#customize-columns-button.mdl-button.mdl-js-button.mdl-button--raised.mdl-js-ripple-effect.mdl-button--colored
+            | Customize columns
+          ul#customize-columns-ul.mdl-menu.mdl-menu--bottom-right.mdl-js-menu.mdl-js-ripple-effect(for='customize-columns-button' style="overflow-y: scroll; height: 200px;")    
+      .mdl-layout__drawer
+        span.mdl-layout-title Drawer title!
+        nav.mdl-navigation
+          a.mdl-navigation__link(href='/') Main Page
+          a.mdl-navigation__link(href='/cards') Cards
+    main.mdl-layout__content
+      .page-content
+        block content

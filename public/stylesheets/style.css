@@ -1,0 +1,23 @@
+body {
+  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+}
+
+a {
+  color: #00B7FF;
+}
+
+.mdl-data-table {
+  font-size: 11px;
+}
+
+mdl-layout__content {
+  overflow-x: auto;
+}
+
+.mdl-data-table th.mdl-data-table__header--sorted-ascending:before, .mdl-data-table th.mdl-data-table__header--sorted-descending:before {
+  font-size: 20px;
+}
+
+.mdl-layout__header.mdl-layout__header--scroll {
+  position: fixed;
+}

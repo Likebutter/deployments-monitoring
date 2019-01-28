@@ -1,0 +1,43 @@
+extends layout
+
+block content
+  script(src='/javascripts/list.min.js')
+  script(type='text/javascript').
+    var _actionColumns = !{JSON.stringify(actionColumns)}
+    var _inactiveColumns = !{JSON.stringify(inactiveColumns)}
+  script(src='/javascripts/action.js')
+  script(src='/javascripts/columns.js')
+  script(src='/javascripts/client.js')
+
+  table.mdl-data-table.mdl-js-data-table.mdl-shadow--2dp.main-table(id="mainTable")
+    thead
+      tr
+        each column in columns ? columns : ['There are no values']
+          if column.numeric
+            th(class="sort" data-sort=column)= column
+          else
+            th.mdl-data-table__cell--non-numeric(class="sort" data-sort=column)= column
+      tr
+        each column in columns ? columns : ['There are no values']
+          th
+            .mdl-textfield.mdl-js-textfield
+              input.mdl-textfield__input(id=column+"Input" class="search" data-search-type=column)
+              label.mdl-textfield__label(for=column+"Input")= column
+              button.mdl-button.mdl-js-button.mdl-button--fab.mdl-button--mini-fab.mdl-button--colored(id=column onclick="removeColumn()")
+              i.material-icons add
+    tbody(class="list")
+      each job in jobs ? jobs : ['There are no values']
+        tr(onclick='showJobInfo(' + '"' + job['APPSERVER'] + '"' + ')')
+          each column in columns ? columns : ['There are no columns']
+            if column.numeric
+              td(class=column)= job[column]
+            else
+              td.mdl-data-table__cell--non-numeric(class=column)= job[column]
+        tr(style='display:none;' id=job['APPSERVER']+"InfoTr")
+          each column in inactiveColumns ? inactiveColumns : ['There are no columns']
+            if column.numeric
+              td(class=column)= column
+              td(class=column)= job[column]
+            else
+              td.mdl-data-table__cell--non-numeric(class=column)= column
+              td(class=column)= job[column]
