@@ -13,10 +13,7 @@ block content
     thead
       tr
         each column in columns ? columns : ['There are no values']
-          if column.numeric
-            th(class="sort" data-sort=column)= column
-          else
-            th.mdl-data-table__cell--non-numeric(class="sort" data-sort=column)= column
+          th.mdl-data-table__cell--non-numeric(class="sort" data-sort=column)= column
       tr
         each column in columns ? columns : ['There are no values']
           th
@@ -29,15 +26,10 @@ block content
       each job in jobs ? jobs : ['There are no values']
         tr(onclick='showJobInfo(' + '"' + job['APPSERVER'] + '"' + ')')
           each column in columns ? columns : ['There are no columns']
-            if column.numeric
-              td(class=column)= job[column]
-            else
-              td.mdl-data-table__cell--non-numeric(class=column)= job[column]
+            td.mdl-data-table__cell--non-numeric(class=column)= job[column]
         tr(style='display:none;' id=job['APPSERVER']+"InfoTr")
-          each column in inactiveColumns ? inactiveColumns : ['There are no columns']
-            if column.numeric
-              td(class=column)= column
-              td(class=column)= job[column]
+          each inactiveColumn in inactiveColumns ? inactiveColumns : ['There are no columns']
+            if inactiveColumn.numeric
+              td(class=inactiveColumn)= inactiveColumn + " : " + job[inactiveColumn]
             else
-              td.mdl-data-table__cell--non-numeric(class=column)= column
-              td(class=column)= job[column]
+              td.mdl-data-table__cell--non-numeric(class=inactiveColumn)= inactiveColumn + " : " + job[inactiveColumn]

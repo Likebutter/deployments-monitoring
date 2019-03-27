@@ -1,7 +1,6 @@
 var express = require('express')
 var router = express.Router()
 var deploymentService = require('../services/deploymentService')
-var deployment = require('../model/deployment')
 var _array = require('../utils/array')
 
 var _columns = {}
@@ -16,9 +15,7 @@ router.get('/jobs', function(req, res, next) {
   }
 
   if (_columns.allColumns === undefined || _columns.activeColumns === undefined) {
-    _columns.allColumns = deploymentService.getAllColumns(jobs)
-    _columns.activeColumns = deploymentService.getActiveColumns()
-    _columns.inactiveColumns = _columns.allColumns.filter(column => !_columns.activeColumns.includes(column))
+    initializeColumns()
   }
 
   actionColumns = deploymentService.getActions()
@@ -26,8 +23,17 @@ router.get('/jobs', function(req, res, next) {
 });
 
 router.post('/column/refresh', function(req, res, next) {
-  _columns.activeColumns = deploymentService.getActiveColumns()
+  initializeColumns()
   res.send("Columns refreshed")
+});
+
+router.post('/column/activate', function(req, res, next) {
+  columnToActivate = req.body.column
+  console.log("ACTIVE COLS " + req.body)
+  console.log("ACTIVE COLS " + columnToActivate)
+  _columns.activeColumns.push(columnToActivate)
+  _array.remove(_columns.inactiveColumns, columnToActivate)
+  res.send(`Column ${columnToActivate} activated`)
 });
 
 router.post('/job', function(req, res, next) {
@@ -45,10 +51,18 @@ router.delete('/column/:columnName', function(req, res, next) {
 
 deactivateColumn = function(columnName) {
   if (columnName === undefined) {
-    alert("Column name is undefined!")
+    alert(`Column ${columnName} is undefined!`)
   } else {
+    let columnToDeactivate = _columns.activeColumns.find(col => { return col === columnName })
+    _columns.inactiveColumns.push(columnToDeactivate)
     _array.remove(_columns.activeColumns, columnName)
   }
 }
+
+initializeColumns = function() {
+    _columns.allColumns = deploymentService.getAllColumns(jobs)
+    _columns.activeColumns = deploymentService.getActiveColumns()
+    _columns.inactiveColumns = _columns.allColumns.filter(column => !_columns.activeColumns.includes(column))
+} 
 
 module.exports = router;

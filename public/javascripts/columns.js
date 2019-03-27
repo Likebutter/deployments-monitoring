@@ -14,11 +14,22 @@ function refreshColumns() {
     location.reload(true)
 }
 
-function addInactiveColumnToList(column) {
+function activateColumn(event) {
+    column = event.target.innerHTML
+    fetch("http://localhost:3000/jenkins/column/activate", {
+        method: "post",
+        body: `column=${column}`
+    })
+    .then(res=>{console.log(`Activating column ${column}...  ${res}`)})
+    location.reload(true)
+}
+
+function addInactiveColumnToList(col) {
     let ul = document.getElementById("customize-columns-ul")
     let li = document.createElement("li")
-    li.appendChild(document.createTextNode(column))
+    li.appendChild(document.createTextNode(col))
     li.classList.add("mdl-menu__item")
+    li.addEventListener("click", function(event) { activateColumn(event) });
     ul.appendChild(li)
 }
 
@@ -26,16 +37,16 @@ var showJobInfo = function(jobName) {
     var infoTrElement = document.getElementById(jobName + "InfoTr")
 
     if (infoTrElement.style.display === "none") {
-        infoTrElement.style.display = "block"
+        infoTrElement.style.display = "table-row"
     } else {
         infoTrElement.style.display = "none"
     }
 }
 
-document.addEventListener("DOMContentLoaded", function(event) {
+window.onload = function() {
     (new Map(Object.entries(_actionColumns))).forEach(function(value, key) {
         applyAction(key, value)
     });
 
-    _inactiveColumns.forEach(column => addInactiveColumnToList(column))
-});
+    _inactiveColumns.forEach(col => addInactiveColumnToList(col))
+};

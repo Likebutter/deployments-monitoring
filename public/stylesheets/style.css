@@ -1,5 +1,6 @@
 body {
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+  overflow-x: hidden;
 }
 
 a {
@@ -10,14 +11,22 @@ a {
   font-size: 11px;
 }
 
-mdl-layout__content {
-  overflow-x: auto;
+.mdl-data-table {
+  width: 100%;
+  table-layout: fixed;
+  height: auto;
+}
+
+.mdl-data-table th, td{
+  overflow: auto;
+  height: auto;
+}
+
+customize-columns-ul {
+  overflow-y: scroll; 
+  height: 200px;
 }
 
 .mdl-data-table th.mdl-data-table__header--sorted-ascending:before, .mdl-data-table th.mdl-data-table__header--sorted-descending:before {
   font-size: 20px;
-}
-
-.mdl-layout__header.mdl-layout__header--scroll {
-  position: fixed;
 }

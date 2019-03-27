@@ -1,5 +1,5 @@
 var mongo = require('./mongoService')
-var PropertiesReader = require('npm install properties-reader')
+var PropertiesReader = require('properties-reader')
 
 setActiveColumns = function() {
   if (_columns.activeColumns === undefined) {
